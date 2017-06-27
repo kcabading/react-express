@@ -10,14 +10,16 @@ gulp.task('live-server', function(){
 	server.start();		
 });
 
-gulp.task('serve',['live-server'],function(){
+gulp.task('serve',['bundle','live-server'],function(){
 	browserSync.init(null, {
-		proxy: 'http://localhost:7777',
+		proxy: 'http://localhost:3000',
 		port: 9001
 	});
+
+	gulp.watch("app/*.ejs").on('change', browserSync.reload);
 });
 
-gulp.task('bundle', function(){
+gulp.task('bundle', ['copy'], function(){
 	return browserify({
 			entries: 'app/main.jsx',
 			debug: true
@@ -26,5 +28,12 @@ gulp.task('bundle', function(){
 		.bundle()
 		.pipe(source('app.js'))
 		.pipe(gulp.dest('./.tmp'));
+});
+
+gulp.task('copy', function(){
+
+	gulp.src(['app/*.css'])
+	.pipe(gulp.dest('./.tmp'));
+
 });
 

@@ -9,4 +9,4 @@ app.get('/', function(req, res){
 	res.render('./../app/index',{});
 })
 .use(Express.static(__dirname + '/../.tmp'))
-.listen(7777);
+.listen(3000);
