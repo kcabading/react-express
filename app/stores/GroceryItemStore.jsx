@@ -1,28 +1,74 @@
-"use strict":
+"use strict";
 
 const Dispatcher = require('./../dispatcher.js');
 
-class GroceryItemStore {
+function GroceryItemStore() {    
 
-    constructor() {
-        this.items = [];
-        this.listeners = [];
+    // call dispatcher register
+    Dispatcher.register(function(event){        
+        var split = event.type.split(':');
+        if (split[0] === 'grocery-item') {
+            switch(split[1]) {
+                case 'add':
+                    addGroceryItem(event.payload);
+                    break;
+                case 'delete':
+                    deleteGroceryItem(event.payload);
+                    break;
+            }
+        }
+    });
+        
+    var items = [
+        {
+            name: "Ice Cream",
+            purchased: true
+        },
+        {
+            name: "Ice Cream"
+        },{
+            name: "Ice Cream"
+        },{
+            name: "Ice Cream"
+        },{
+            name: "Ice Cream"
+        }
+    ];
+    
+    var listeners = [];
+
+    function addGroceryItem(item) {
+        items.push(item);
+        triggerListeners();
+    }
+
+    function deleteGroceryItem(item) {
+        let index = items.findIndex(function(_item){
+            return _item.name == item.name
+        });
+        items.splice(index, 1);
+        triggerListeners();
     }
     
-    getItems() {
-        return this.items;
+    function getItems() {
+        return items;
     }
 
-    onChange(listener) {
-        this.listeners.push(listener);
+    function onChange(listener) {
+        listeners.push(listener);
     }
 
-    triggerListeners() {
-        changeListeners.forEach( (listener) => {
-            listener(groceryItems);
+    function triggerListeners() {
+        listeners.forEach( (listener) => {
+            listener(items);
         });
+    }
+
+    return {
+        getItems,
+        onChange,
+        deleteGroceryItem
     }
 }
 
-
-module.exports = GroceryItemStore;
+module.exports = new GroceryItemStore();

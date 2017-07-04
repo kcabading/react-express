@@ -5,7 +5,7 @@ const listeners = {};
 
 
 module.exports = {
-    register : (cb) => {
+    register : (cb) => {        
         let id = guid.raw();
         listeners[id] = cb;
         return id;

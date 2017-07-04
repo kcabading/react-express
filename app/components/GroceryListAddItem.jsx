@@ -28,11 +28,10 @@ class CreateItem extends React.Component{
         Action.add({
             name: this.state.input
         });
-
+                
         this.setState({
             input: ""
         })
-
     }
 
     render() {

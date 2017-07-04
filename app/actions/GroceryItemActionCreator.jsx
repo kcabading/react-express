@@ -10,5 +10,12 @@ module.exports = {
             payload: item,
             type: "grocery-item:add"
         });
+    },
+    delete: (item) => {
+
+        Dispatcher.dispatch({
+            payload: item,
+            type: "grocery-item:delete"
+        });
     }
 }
